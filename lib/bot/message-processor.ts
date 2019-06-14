@@ -1,10 +1,10 @@
-import { TelegramMessage } from "telegram/entities/responses/get-updates";
-import { TelegramAPI } from "telegram/api";
-import { BotCommands } from "domain/bot-commands";
-import { CommandHandlerInput, HandlerResponse } from "domain/command-handlers";
-import { SendMessageRequest } from "telegram/entities/requests/send-messages";
-import { UploadAudioRequest } from "telegram/entities/requests/send-messages";
-import { TelegramResponse } from "telegram/entities/responses/response";
+import {TelegramMessage} from 'telegram/entities/responses/get-updates';
+import {TelegramAPI} from 'telegram/api';
+import {BotCommands} from 'domain/bot-commands';
+import {CommandHandlerInput, HandlerResponse} from 'domain/command-handlers';
+import {SendMessageRequest} from 'telegram/entities/requests/send-messages';
+import {UploadAudioRequest} from 'telegram/entities/requests/send-messages';
+import {TelegramResponse} from 'telegram/entities/responses/response';
 
 export class MessageProcessor {
     private api: TelegramAPI;
@@ -25,10 +25,10 @@ export class MessageProcessor {
 
     private logHandledResponse(response: Promise<TelegramResponse<TelegramMessage>>) {
         response
-            .then((response) => {
+            .then(response => {
                 console.log(`sent response to user. msg id ${response.result.message_id}`);
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(`failed to send response: ${error}`);
             });
     }
@@ -40,12 +40,12 @@ export class MessageProcessor {
         switch (response.getOutputType()) {
             case 'TextMessage':
                 this.handleMessageReply(message, request);
-                break;           
+                break;
             case 'AudioMessage':
                 this.handleMessageReplyWithAudio(message, request);
-                break
+                break;
             default:
-                console.log("failed to handle response. Unknown response type: " + response.getOutputType());
+                console.log('failed to handle response. Unknown response type: ' + response.getOutputType());
                 break;
         }
     }
@@ -58,12 +58,12 @@ export class MessageProcessor {
             const input: CommandHandlerInput = this.generateInput(message);
 
             commandHandler(input)
-                .then((handlerResponse) => {
+                .then(handlerResponse => {
                     console.log('got handler response: ' + handlerResponse.getOutputRequest());
                     this.handleReponse(message, handlerResponse);
                 })
                 .catch(error => {
-                    console.log("failed to process command: " + error);
+                    console.log('failed to process command: ' + error);
                 });
         }
     }
@@ -74,7 +74,7 @@ export class MessageProcessor {
             text: message.text,
             progressListener: (progressResponse: HandlerResponse) => {
                 this.handleReponse(message, progressResponse);
-            }
+            },
         };
     }
 }

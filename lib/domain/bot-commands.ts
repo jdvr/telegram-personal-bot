@@ -1,13 +1,13 @@
-import { HandlerResponse, CommandHandlerInput, CreateSendMessageRequest } from "domain/command-handlers";
+import {HandlerResponse, CommandHandlerInput, CreateSendMessageRequest} from 'domain/command-handlers';
 
 export type BotCommandHandler = (input: CommandHandlerInput) => Promise<HandlerResponse>;
 export interface BotCommand {
-    handler: BotCommandHandler
-    helpText: string
+    handler: BotCommandHandler;
+    helpText: string;
 }
 
 interface CommandsHash {
-    [key: string]: BotCommand
+    [key: string]: BotCommand;
 }
 
 export class BotCommands {
@@ -42,7 +42,6 @@ export class BotCommands {
     public UserHelper = this.userHelper.bind(this);
     private async userHelper(input: CommandHandlerInput): Promise<HandlerResponse> {
         const messageText = `Available Commands:\n\n${this.getHelpCommands()}`;
-        return CreateSendMessageRequest(messageText, "");
+        return CreateSendMessageRequest(messageText, '');
     }
-
 }

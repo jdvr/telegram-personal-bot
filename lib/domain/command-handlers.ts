@@ -1,13 +1,13 @@
-import { TelegramUser } from "telegram/entities/responses/get-updates";
-import { SendMessageRequest, ParseMode } from "telegram/entities/requests/send-messages";
-import { UploadAudioRequest } from "telegram/entities/requests/send-messages";
-import { Readable } from "stream";
+import {TelegramUser} from 'telegram/entities/responses/get-updates';
+import {SendMessageRequest, ParseMode} from 'telegram/entities/requests/send-messages';
+import {UploadAudioRequest} from 'telegram/entities/requests/send-messages';
+import {Readable} from 'stream';
 
 type HandlerOutputType = 'TextMessage' | 'AudioMessage';
 
 export interface CommandHandlerInput {
-    from: TelegramUser,
-    text: string
+    from: TelegramUser;
+    text: string;
     progressListener?: (progress: HandlerResponse) => void;
 }
 
@@ -17,7 +17,6 @@ export class HandlerResponse {
 
     public getOutputType(): HandlerOutputType {
         return this.outputType;
-
     }
 
     public getOutputRequest(): any {
@@ -35,27 +34,31 @@ export class HandlerResponse {
     }
 }
 
-export function CreateUploadAudioRequest(readable: Readable, filename: string, caption: string, parse_mode: ParseMode = 'Markdown'): HandlerResponse {
+export function CreateUploadAudioRequest(
+    readable: Readable,
+    filename: string,
+    caption: string,
+    parse_mode: ParseMode = 'Markdown'
+): HandlerResponse {
     const request: UploadAudioRequest = {
         chat_id: null,
         caption: caption,
         parse_mode: parse_mode,
         audio: readable,
-        filename: filename
-    }
+        filename: filename,
+    };
 
     const response = new HandlerResponse();
     response.setAudioMessageOutput(request);
     return response;
 }
 
-
 export function CreateSendMessageRequest(text?: string, parse_mode: ParseMode = 'Markdown'): HandlerResponse {
     const request: SendMessageRequest = {
         chat_id: null,
         parse_mode: parse_mode,
-        text: text
-    }
+        text: text,
+    };
 
     const response = new HandlerResponse();
     response.setTextMessageOutput(request);

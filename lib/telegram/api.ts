@@ -1,11 +1,11 @@
-import axios, { AxiosResponse, AxiosError, AxiosPromise } from 'axios';
-import { TelegramResponse } from 'telegram/entities/responses/response';
-import { GetMeResponse } from 'telegram/entities/responses/getme';
-import { GetUpdatesResponse, TelegramMessage } from 'telegram/entities/responses/get-updates';
-import { GetUpdatesRequest } from 'telegram/entities/requests/get-updates';
-import { SendMessageRequest } from 'telegram/entities/requests/send-messages';
-import { UploadAudioRequest } from 'telegram/entities/requests/send-messages';
-import * as FormData from "form-data";
+import axios, {AxiosResponse, AxiosError, AxiosPromise} from 'axios';
+import {TelegramResponse} from 'telegram/entities/responses/response';
+import {GetMeResponse} from 'telegram/entities/responses/getme';
+import {GetUpdatesResponse, TelegramMessage} from 'telegram/entities/responses/get-updates';
+import {GetUpdatesRequest} from 'telegram/entities/requests/get-updates';
+import {SendMessageRequest} from 'telegram/entities/requests/send-messages';
+import {UploadAudioRequest} from 'telegram/entities/requests/send-messages';
+import * as FormData from 'form-data';
 
 const API_HOST = 'https://api.telegram.org';
 
@@ -22,9 +22,10 @@ export class TelegramAPI {
 
     private handleResponse<T>(requestPromise: AxiosPromise): Promise<TelegramResponse<T>> {
         return new Promise<TelegramResponse<T>>((resolve, reject) => {
-            requestPromise.then((response: AxiosResponse) => {
-                resolve(response.data);
-            })
+            requestPromise
+                .then((response: AxiosResponse) => {
+                    resolve(response.data);
+                })
                 .catch((error: AxiosError) => {
                     console.log(error.message);
                     reject(error.message);
@@ -38,17 +39,19 @@ export class TelegramAPI {
     }
 
     private doPost<R, T>(method: string, data: R): Promise<TelegramResponse<T>> {
-        console.log(`doPost - ${method}`)
+        console.log(`doPost - ${method}`);
         const headers = {
             'Content-Type': 'application/json',
-        }
+        };
 
-        return this.handleResponse<T>(axios.post(this.createMethodUrl(method), data, { headers: headers }));
+        return this.handleResponse<T>(axios.post(this.createMethodUrl(method), data, {headers: headers}));
     }
 
     private doFormDataPost<T>(method: string, data: FormData): Promise<TelegramResponse<T>> {
-        console.log(`doFormDataPost - ${method}`)
-        return this.handleResponse<T>(axios.post(this.createMethodUrl(method), data, { headers: data.getHeaders() }));
+        console.log(`doFormDataPost - ${method}`);
+        return this.handleResponse<T>(
+            axios.post(this.createMethodUrl(method), data, {headers: data.getHeaders()})
+        );
     }
 
     public async getMe(): Promise<TelegramResponse<GetMeResponse>> {
@@ -72,5 +75,4 @@ export class TelegramAPI {
 
         return await this.doFormDataPost<TelegramMessage>('sendAudio', form);
     }
-
 }

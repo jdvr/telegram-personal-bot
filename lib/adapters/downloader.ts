@@ -1,6 +1,6 @@
-import { Readable } from "stream";
+import {Readable} from 'stream';
 
-export interface RemoteDownloader{
+export interface RemoteDownloader {
     downloadAudioFile(url: string): Promise<AudioMetadata>;
 }
 
