@@ -36,7 +36,7 @@ export class MessageProcessor {
     private handleReponse(message: TelegramMessage, response: HandlerResponse) {
         let request = response.getOutputRequest();
         request.chat_id = message.chat.id;
-
+        console.log(`chat_id: ${request.chat_id}`);
         switch (response.getOutputType()) {
             case 'TextMessage':
                 this.handleMessageReply(message, request);
@@ -59,7 +59,7 @@ export class MessageProcessor {
 
             commandHandler(input)
                 .then(handlerResponse => {
-                    console.log('got handler response: ' + handlerResponse.getOutputRequest());
+                    console.log('got handler response: ' + JSON.stringify(handlerResponse.getOutputRequest()));
                     this.handleReponse(message, handlerResponse);
                 })
                 .catch(error => {

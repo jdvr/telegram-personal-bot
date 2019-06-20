@@ -28,6 +28,7 @@ export class TelegramAPI {
                 })
                 .catch((error: AxiosError) => {
                     console.log(error.message);
+                    console.log(JSON.stringify(error));
                     reject(error.message);
                 });
         });
