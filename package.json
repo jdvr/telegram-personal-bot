@@ -1,41 +1,47 @@
 {
-  "name": "telegram-youtube-dl",
-  "version": "1.0.0",
-  "description": "",
-  "main": "bot.js",
-  "scripts": {
-    "build": "tsc",
-    "dev": "ts-node -r tsconfig-paths/register ./lib/bot.ts",
-    "start": "NODE_PATH=dist/ node ./dist/bot.js",
-    "prod": "npm run build && npm start",
-    "test": "jest",
-    "prettier": "prettier --write '**/*.ts'",
-    "build-image": "docker build -t $npm_package_name:latest -t $npm_package_name:$npm_package_version ."
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@types/express": "^4.16.1",
-    "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "form-data": "^2.3.3",
-    "node-cmd": "^3.0.0",
-    "typescript": "^3.3.3333",
-    "uuid": "^3.3.2",
-    "ytdl-core": "^0.29.1"
-  },
-  "devDependencies": {
-    "@types/form-data": "^2.2.1",
-    "@types/jest": "^24.0.11",
-    "@types/nock": "^9.3.1",
-    "@types/node": "^11.12.2",
-    "jest": "^24.5.0",
-    "nock": "^10.0.6",
-    "prettier": "1.18.2",
-    "ts-jest": "^24.0.0",
-    "ts-mockito": "^2.3.1",
-    "ts-node": "^8.0.3",
-    "tsconfig-paths": "^3.8.0"
-  }
+    "name": "telegram-personal-bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bot.js",
+    "scripts": {
+        "build": "tsc",
+        "dev": "ts-node -r tsconfig-paths/register ./lib/bot.ts",
+        "start": "NODE_PATH=dist/ node ./dist/bot.js",
+        "prod": "npm run build && npm start",
+        "test": "jest",
+        "prettier": "prettier --write '**/*.ts'",
+        "build-image": "docker build -t $npm_package_name:latest -t $npm_package_name:$npm_package_version ."
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/express": "^4.16.1",
+        "axios": "^0.18.0",
+        "body-parser": "^1.18.3",
+        "express": "^4.16.4",
+        "form-data": "^2.3.3",
+        "node-cmd": "^3.0.0",
+        "typescript": "^3.3.3333",
+        "uuid": "^3.3.2",
+        "ytdl-core": "^0.29.1"
+    },
+    "devDependencies": {
+        "@types/form-data": "^2.2.1",
+        "@types/jest": "^24.0.11",
+        "@types/nock": "^9.3.1",
+        "@types/node": "^11.12.2",
+        "husky": "^2.4.1",
+        "jest": "^24.5.0",
+        "nock": "^10.0.6",
+        "prettier": "1.18.2",
+        "ts-jest": "^24.0.0",
+        "ts-mockito": "^2.3.1",
+        "ts-node": "^8.0.3",
+        "tsconfig-paths": "^3.8.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run prettier"
+        }
+    }
 }

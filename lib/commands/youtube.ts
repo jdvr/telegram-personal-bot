@@ -35,7 +35,7 @@ export class YoutubeCommandHandler {
             let audio = await this.downloader.downloadAudioFile(segments[1]);
             return CreateUploadAudioRequest(audio.readableStream, audio.filename, 'Here you go :)');
         } catch (error) {
-            console.log("here2");
+            console.log('here2');
             return CreateSendMessageRequest(error.message);
         }
     }

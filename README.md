@@ -1,6 +1,8 @@
-[![Build Status](https://travis-ci.org/idanya/telegram-youtube-dl.svg?branch=master)](https://travis-ci.org/idanya/telegram-youtube-dl)
+# Personal telegram bot
+---
+ 
 
-**telegram-youtube-dl** - Telegram bot to download Youtube content.
+Forked from [telegram-bot-youtube-dl](https://github.com/idanya/telegram-youtube-dl)
 
 - [Setting up](#setting-up)
 - [Install](#install)
@@ -17,7 +19,7 @@ Before you can run a Telegram bot, you have to create it and get it's API token.
 `npm install`
 
 ## Usage
-The app expects `TELEGRAM_TOKEN` environment variable to contain the bot token. make sure you set it up via `export TELEGRAM_TOKEN=<token>` or inline with the `npm run` command.  
+The app needs `TELEGRAM_TOKEN` and `RCLONE_REMOTE` environment variable to work. Make sure you set it up via `export TELEGRAM_TOKEN=<token>` or inline with the `npm run` command.  
 
 ### Run types
 `npm run dev` - use ts-node. </br>
@@ -30,10 +32,19 @@ The app expects `TELEGRAM_TOKEN` environment variable to contain the bot token. 
 
 `/audio <video url>` - This will download the audio format of the video and send it to the requesting user. 
 
+`/list directory` - This will list remote rclone directory using `rclone ls` 
+`/link filepath` - This will generate a link to download the file 
+
 ## Testing
 `npm test` - run all tests </br>
 
 ## Docker
-After building the Dockerfile, run with your token as ENV variable.
+After building the Dockerfile (`npm run build-image`), run with your token as ENV variable.
 
-`docker run -d -e TELEGRAM_TOKEN=<your bot token> <image name>`
+```shell
+docker run --rm -d --name telegrambot \
+ -e TELEGRAM_TOKEN={{token}} \ 
+ -e TELEGRAM_TOKEN={{token}} \
+telegram-personal-bot
+
+```

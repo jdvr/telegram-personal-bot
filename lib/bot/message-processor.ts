@@ -59,7 +59,9 @@ export class MessageProcessor {
 
             commandHandler(input)
                 .then(handlerResponse => {
-                    console.log('got handler response: ' + JSON.stringify(handlerResponse.getOutputRequest()));
+                    console.log(
+                        'got handler response: ' + JSON.stringify(handlerResponse.getOutputRequest())
+                    );
                     this.handleReponse(message, handlerResponse);
                 })
                 .catch(error => {

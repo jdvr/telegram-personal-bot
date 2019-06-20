@@ -17,7 +17,7 @@ export class YoutubeDownloader implements RemoteDownloader {
             const readableStream = await this.downloadFormat(youtubeUrl, audioFormat);
             return new AudioMetadata(readableStream, filename);
         } catch (err) {
-            console.log("here1");
+            console.log('here1');
             throw err;
         }
     }
