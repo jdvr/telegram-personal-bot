@@ -1,20 +1,35 @@
 import {HandlerResponse, CommandHandlerInput, CreateSendMessageRequest} from 'domain/command-handlers';
+import {getAbsoluteMappingEntries} from 'tsconfig-paths/lib/mapping-entry';
 
 export type BotCommandHandler = (input: CommandHandlerInput) => Promise<HandlerResponse>;
 export interface BotCommand {
     handler: BotCommandHandler;
-    helpText: string;
+    helpText?: string;
 }
 
 interface CommandsHash {
     [key: string]: BotCommand;
 }
 
-export class BotCommands {
-    private commands: CommandsHash = {};
+const generateHelpCommandHandler = (commands: CommandsHash) => (
+    input: CommandHandlerInput
+): Promise<HandlerResponse> => {
+    const message = Object.entries(commands)
+        .map(([key, value]) => {
+            return `${key} - ${value.helpText}\n`;
+        })
+        .join('\n');
+    return Promise.resolve(CreateSendMessageRequest(message, ''));
+};
 
-    public addCommand(command: string, handler: BotCommand): void {
-        this.commands[command] = handler;
+export class BotCommands {
+    private readonly commands: CommandsHash;
+
+    public constructor(commands: CommandsHash) {
+        this.commands = {
+            '/help': {handler: generateHelpCommandHandler(commands)},
+            ...commands,
+        };
     }
 
     public getCommandHandler(command: string): BotCommandHandler {
@@ -29,19 +44,5 @@ export class BotCommands {
         }
 
         return null;
-    }
-
-    private getHelpCommands(): string {
-        let text = '';
-        for (const key in this.commands) {
-            text += `${key} - ${this.commands[key].helpText}\n`;
-        }
-        return text;
-    }
-
-    public UserHelper = this.userHelper.bind(this);
-    private async userHelper(input: CommandHandlerInput): Promise<HandlerResponse> {
-        const messageText = `Available Commands:\n\n${this.getHelpCommands()}`;
-        return CreateSendMessageRequest(messageText, '');
     }
 }
